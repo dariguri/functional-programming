@@ -1,18 +1,17 @@
-lists :: Int -> [[Int]]
-lists 1 = [[1], [2], [3]]
-lists n = (map (1:) (lists (n-1))) ++ (map (2:) (lists (n-1))) ++ (map (3:) (lists (n-1)))
+import Data.List
 
-deleteRedundant :: [[Int]] -> [[Int]]
-deleteRedundant []= []
-deleteRedundant (x:xs) | (filterFour x) = x : (deleteRedundant xs)
-                       | otherwise = deleteRedundant xs
+func :: [Int] -> Bool
+func n = (sum n <= 6)
 
-filterFour:: [Int] -> Bool
-filterFour [] = True
-filterFour (x:[]) = True
-filterFour (x:y:xs) | x+y > 4 = False 
-                     | otherwise = filterFour (y:xs)
+checkList :: (Ord a, Num a) => [a] -> Bool
+checkList [] = True
+checkList [x] = True
+checkList (x:y:xs) = (x + y <= 4) && checkList (y:xs)
 
+main :: IO()
 main = do 
-    let res = deleteRedundant $ lists 3
-    putStrLn ( show res)
+    let n = 4
+    let xs = [1, 2, 3]
+    let list = mapM (const xs) [1..n]
+    let result = filter (checkList) list
+    print (result)
